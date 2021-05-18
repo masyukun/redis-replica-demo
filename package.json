@@ -1,0 +1,19 @@
+{
+  "name": "redis-replica-demo",
+  "version": "1.0.0",
+  "description": "Insert data into redis, then demonstrate another redis instance replicated the data by getting it from the replica.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "redis",
+    "replica"
+  ],
+  "author": "Matthew Royal",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "ioredis": "^4.27.2"
+  }
+}
