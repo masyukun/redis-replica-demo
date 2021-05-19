@@ -74,7 +74,7 @@ const insertFacts = (redis, catFacts) => {
     let storedFacts = [];
 
     catFacts.map( fact => {
-        // Build the fact and store it
+        // Build the fact and store it, without regard to successful promise
         let key = `${catApi.keyNamespace}:${fact["_id"]}`
         let value = `${fact["text"]}`
         redis.set(key, value, "EX", catApi.expirationSeconds)
@@ -97,10 +97,9 @@ const verifyFacts = async (redis, keys, printOut) => {
 
     for (let key of keys) {
         let value = await redis.get(key)
-        
         if (!!value) {
             // Found it. Maybe print it.
-            if (printOut) console.log(`${key}: \t [${value}]`);            
+            if (printOut) console.log(`${key} --> \t [${value}]`);            
             verified.push(key)
         } 
     }
@@ -137,7 +136,7 @@ let handler = async () => {
     console.log(`Successfully inserted ${catKeys.length} cat facts!`);
 
     // Get it from the replica, but backwards
-    let verified = verifyFacts(verifyRedis, catKeys.reverse(), true)
+    let verified = await verifyFacts(verifyRedis, catKeys.reverse(), true)
     console.log(`Verified that ${verified.length} cat facts made it into the replica.`);
 }
 
